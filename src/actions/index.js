@@ -26,11 +26,17 @@ const deleteFromCart = (id) => {
         payload: id
     }
 }
+const emptyCart = () => {
+    return {
+        type: 'EMPTY_CART'
+    }
+}
 
 export {
     menuLoaded,
     menuRequested,
     menuNotReceived,
     addedToCart,
-    deleteFromCart
+    deleteFromCart,
+    emptyCart
 }

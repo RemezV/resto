@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import WithRestoService from '../hoc/';
 import Spinner from '../spinner';
-import {menuLoaded, menuRequested, menuNotReceived} from '../../actions';
+import {menuLoaded, menuRequested, menuNotReceived, addedToCart} from '../../actions';
 
 import './itemPage.scss';
 
@@ -28,7 +28,7 @@ class ItemPage extends Component {
             )
         }
         const item = this.props.menuItems.find(el => +el.id === +this.props.match.params.id)
-        const{title, url, category, price} = item;
+        const{title, url, category, price, id} = item;
 
         return (
             <div className = "item_page">
@@ -37,7 +37,7 @@ class ItemPage extends Component {
                     <img className="menu__img" src={url} alt={title}></img>
                     <div className="menu__category">Category: <span>{category}</span></div>
                     <div className="menu__price">Price: <span>{price}$</span></div>
-                    <button className="menu__btn">Add to cart</button>
+                    <button onClick={() => this.props.addedToCart(id)} className="menu__btn">Add to cart</button>
                 </div>
             </div>
         );
@@ -55,7 +55,8 @@ const mapStateToProps =  (state) =>{
 const mapDispatchToProps = {
     menuLoaded,
     menuRequested,
-    menuNotReceived
+    menuNotReceived,
+    addedToCart
 }
 
-export default WithRestoService ()( connect(mapStateToProps, mapDispatchToProps)(ItemPage) );
+export default WithRestoService()( connect(mapStateToProps, mapDispatchToProps)(ItemPage) );

@@ -59,6 +59,10 @@ const reducer = (state = initialState,action) => {
                 ],
                 total: state.total - minusTotal
             }
+        case 'EMPTY_CART':
+            return {
+                ...state, items: [], total: 0
+            }
         default:
             return state
     }
