@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import MenuListItem from '../menu-list-item';
 import {connect} from 'react-redux'
 import WithRestoService from '../hoc'
-import { menuLoaded, menuRequested, menuNotReceived, addedToCart, deleteFromCart } from '../../actions'
+import { menuLoaded, menuRequested, menuNotReceived, addedToCart } from '../../actions'
 import './menu-list.scss';
 import Spinner from '../spinner'
 import Error from '../error'

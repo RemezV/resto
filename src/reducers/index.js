@@ -1,6 +1,6 @@
 const initialState = {
     menu: [],
-    loading: true,
+    loading: false,
     error: false,
     items: [],
     total: 0
