@@ -1,20 +1,57 @@
-import React from 'react';
-import './cart-table.scss';
+import React from 'react'
+import { connect } from 'react-redux'
+import { deleteFromCart } from '../../actions'
+import WithRestoService from '../hoc'
+import './cart-table.scss'
 
-const CartTable = () => {
+const CartTable = ({items, deleteFromCart, RestoService}) => {
+    if (items.length === 0) {
+        return (<div className="cart__title"> Your cart is empty :( </div>)
+    }
     return (
         <>
-            <div className="cart__title">Ваш заказ:</div>
+            <div className="cart__title">Your order:</div>
             <div className="cart__list">
-                <div className="cart__item">
-                    <img src="https://static.1000.menu/img/content/21458/-salat-cezar-s-kr-salat-cezar-s-krevetkami-s-maionezom_1501173720_1_max.jpg" className="cart__item-img" alt="Cesar salad"></img>
-                    <div className="cart__item-title">Cesar salad</div>
-                    <div className="cart__item-price">12$</div>
-                    <div className="cart__close">&times;</div>
-                </div>
+                {
+                    items.map(item => {
+                        const { title, url, id, quantity, price } = item
+                        return (
+                            <div key={id} className="cart__item">
+                                <img src={url} className="cart__item-img" alt={title}></img>
+                                <div className="cart__item-title">{title}</div>
+                                <div className="cart__item-price">{price * quantity}$</div>
+                                <div className="cart__item-price">{quantity}</div>
+                                <div className="cart__close" onClick={() => deleteFromCart(id)}>&times;</div>
+                            </div>
+                        )
+                    })
+                }
+                <button className="menu__btn cart__confirm" onClick={() => {
+                    RestoService.setOrder( generateOrder( items ) )
+                }}>Confirm</button>
             </div>
+            
         </>
-    );
-};
+    )
+}
+const generateOrder = (items) => {
+    const newOrder = items.map(item => {
+        return {
+            id: item.id,
+            title: item.title,
+            quantity: item.quantity
+        }
+    })
+    return newOrder
+}
+const mapStateToProps = ({items}) => {
+    return {
+        items
+    }
+}
 
-export default CartTable;
+const mapDispatchToProps = {
+    deleteFromCart
+}
+ 
+export default WithRestoService()(connect(mapStateToProps, mapDispatchToProps)(CartTable))
